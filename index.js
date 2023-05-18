@@ -1,38 +1,37 @@
-function createEmployeeRecord(array){
+function createEmployeeRecord(arr){
     let employee = {
-        firstName: array[0],
-        familyName: array[1],
-        title: array[2],
-        payPerHour: array[3],
+        firstName: arr[0],
+        familyName: arr[1],
+        title: arr[2],
+        payPerHour: arr[3],
         timeInEvents: [],
         timeOutEvents: []
     }
     return(employee) 
 }
 
-function createEmployeeRecords(array){
-    let newArr=[]
-    for(let item of array){
-      newArr.push(createEmployeeRecord(item))              
+function createEmployeeRecords(arr){
+    let newArray=[]
+    for(let item of arr){
+      newArray.push(createEmployeeRecord(item))              
     }
-    return newArr       
+    return newArray       
 } 
 
-function createTimeInEvent(employee, stamp){
-    let timeIn= {
-        type:"TimeIn",
-        hour: parseInt(stamp.split(' ')[1]),
-        date: stamp.split(' ')[0]
-    }
-    employee.timeInEvents.push(timeIn)
+function createTimeInEvent(employee, dateTime) {
+    let [date, hour] = dateTime.split(' ')
+    employee.timeInEvents.push({
+        type: "TimeIn", 
+        hour: parseInt(hour, 10), 
+        date,
+    })
     return employee
 }
-
-function createTimeOutEvent(employee, stamp){
+function createTimeOutEvent(employee, dateTime){
     let timeOut= {
         type:"TimeOut",
-        hour: parseInt(stamp.split(' ')[1]),
-        date: stamp.split(' ')[0]        
+        hour: parseInt(dateTime.split(' ')[1]),
+        date: dateTime.split(' ')[0]        
     }
     employee.timeOutEvents.push(timeOut)
     return employee
@@ -64,10 +63,10 @@ function allWagesFor(employee){
 
 
 function calculatePayroll(array){
-    let totalPayroll = 0
-    for(let j=[0]; j <array.length; j++){
-        let wage = allWagesFor(array[j])
-        totalPayroll+= wage        
+    let total = 0
+    for(let i=[0]; i <array.length; i++){
+        let wage = allWagesFor(array[i])
+        total+= wage        
     }
-    return(totalPayroll)
+    return(total)
 }
